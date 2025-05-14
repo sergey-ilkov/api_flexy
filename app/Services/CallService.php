@@ -87,7 +87,14 @@ class CallService
             'message' => $data->attributes,
             'error' => null,
         ];
-        $response = Http::post($task->attributes['callback_url'], $dataSend);
+
+        try {
+            $response = Http::post($task->attributes['callback_url'], $dataSend);
+        } catch (\Exception $e) {
+            Log::stack([$this->channel])->error('HTTP request failed: ', ['error' => $e->getMessage()]);
+            return false;
+        }
+
 
 
         Log::stack([$this->channel])->info('Cron Job running CallService send() ', ['$response' => $response]);
