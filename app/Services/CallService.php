@@ -41,7 +41,7 @@ class CallService
         Log::stack([$this->channel])->info('Cron Job running CallService call()');
 
         // sleep(10); // 10 seconds
-        sleep(5);
+        // sleep(5);
 
         // ? формируется ответ после звонка
         $data = [
