@@ -68,6 +68,7 @@ class CallService
             'error' => null,
         ];
 
+        // ? 'ivr_answer' => 1, // null 
         // ? 'is_error_happened' => false, - true если во время звонка произошла ошибка
         // ? error_desc' => null, - string если во время звонка произошла ошибка
 
