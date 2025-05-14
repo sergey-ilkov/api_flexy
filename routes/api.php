@@ -45,6 +45,7 @@ Route::prefix('/v1/auth')->group(function () {
 
 });
 
-Route::middleware('auth:sanctum')->prefix('v1/task')->group(function () {
+
+Route::middleware('auth:sanctum')->prefix('/v1/task')->group(function () {
     Route::post('/', [CallController::class, 'task'])->name('task.create');
 });

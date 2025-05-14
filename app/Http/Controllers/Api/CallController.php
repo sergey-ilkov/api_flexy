@@ -16,15 +16,31 @@ class CallController extends Controller
     public function task(Request $request)
     {
 
+
         $channel = Log::build([
             'driver' => 'single',
             'path' => storage_path('logs/Call/call.log'),
         ]);
 
-        $request->validate([
-            'phone' => 'required|numeric',
-            'callback_url' => 'required|url',
-        ]);
+        // $request->validate([
+        //     'phone' => 'required',
+        //     'callback_url' => 'required|url',
+        // ]);
+
+        if (!$request->phone) {
+            $error = [
+                'result' => false,
+                'error' => 'Phone required',
+            ];
+            return response()->json($error);
+        }
+        if (!$request->callback_url) {
+            $error = [
+                'result' => false,
+                'error' => 'callback_url required',
+            ];
+            return response()->json($error);
+        }
 
 
         $dataDB = [

@@ -38,7 +38,7 @@ class CallService
         // ]);
 
         // Log::stack(['single', $channel])->info('Cron Job running CallService call() ', ['task' => $task]);
-        Log::stack(['single', $this->channel])->info('Cron Job running CallService call()');
+        Log::stack([$this->channel])->info('Cron Job running CallService call()');
 
         // sleep(10); // 10 seconds
         sleep(5);
@@ -72,35 +72,39 @@ class CallService
         // ? error_desc' => null, - string если во время звонка произошла ошибка
 
 
+
         $this->send($task, $data);
     }
 
     public function send($task, $data)
     {
-        // $channel = Log::build([
-        //     'driver' => 'single',
-        //     'path' => storage_path('logs/Call/call.log'),
-        // ]);
+
 
         // ? post 
-        // $dataSend = [
-        //     'result' => true,
-        //     'message' => $data->attributes,
-        //     'error' => null,
-        // ];
-        // $response = Http::post('http://example.com/users', $dataSend);
+        $dataSend = [
+            'result' => true,
+            'message' => $data->attributes,
+            'error' => null,
+        ];
+        $response = Http::post($task->attributes['callback_url'], $dataSend);
 
-        // Log::stack(['single', $channel])->info('Cron Job running CallService send() ', ['$response' => $response]);
 
-        // if ($response) {
-        //     $data['attributes']['is_callback_sent'] = true;
-        // }
+        Log::stack([$this->channel])->info('Cron Job running CallService send() ', ['$response' => $response]);
 
-        // ? обновляем задачу в БД
+        if ($response) {
+            $data['attributes']['is_callback_sent'] = true;
+        }
 
+
+
+        $this->updateTask($task, $data);
+    }
+
+    public function updateTask($task, $data)
+    {
         $task->attributes = $data['message']['attributes'];
         $task->update();
 
-        Log::stack(['single', $this->channel])->info('Cron Job running CallService update DB ', ['id' => $task->id, 'task_id' => $task->task_id]);
+        Log::stack([$this->channel])->info('Cron Job running CallService update DB updateTask() ', ['id' => $task->id, 'task_id' => $task->task_id]);
     }
 }

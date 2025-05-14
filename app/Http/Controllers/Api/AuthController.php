@@ -106,7 +106,8 @@ class AuthController extends Controller
 
         if ($user) {
             $user->tokens()->delete();
-            return response('ok', 200)->header('Content-Type', 'text/plain');
+            return response('ok', 200);
+            // return response('ok', 200)->header('Content-Type', 'text/plain');
         }
         return response()->json(['error' => 'Authorization error']);
     }

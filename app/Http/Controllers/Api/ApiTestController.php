@@ -13,6 +13,9 @@ class ApiTestController extends Controller
     //
     public function index()
     {
+        // $task = Call::find(62);
+
+        // dd($task->attributes['callback_url']);
 
         return view('api.index');
     }
