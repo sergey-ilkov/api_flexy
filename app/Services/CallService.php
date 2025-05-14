@@ -84,7 +84,7 @@ class CallService
         // ? post 
         $dataSend = [
             'result' => true,
-            'message' => $data->attributes,
+            'message' => $data['message']['attributes'],
             'error' => null,
         ];
 
