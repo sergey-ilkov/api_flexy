@@ -82,14 +82,14 @@ class CallService
 
 
         // ? post 
-        $dataSend = [
-            'result' => true,
-            'message' => $data['message']['attributes'],
-            'error' => null,
-        ];
+        // $dataSend = [
+        //     'result' => true,
+        //     'message' => $data['message']['attributes'],
+        //     'error' => null,
+        // ];
 
         try {
-            $response = Http::post($task->attributes['callback_url'], $dataSend);
+            $response = Http::post($task->attributes['callback_url'], $data);
         } catch (\Exception $e) {
             Log::stack([$this->channel])->error('HTTP request failed: ', ['error' => $e->getMessage()]);
             return false;
@@ -100,7 +100,7 @@ class CallService
         Log::stack([$this->channel])->info('Cron Job running CallService send() ', ['$response' => $response]);
 
         if ($response) {
-            $data['attributes']['is_callback_sent'] = true;
+            $data['message']['attributes']['is_callback_sent'] = true;
         }
 
 
